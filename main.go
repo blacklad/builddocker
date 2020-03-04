@@ -55,7 +55,7 @@ func main() {
 	} else {
 		fmt.Printf("%v", cmd.Process.Pid)
 		os.Mkdir(path.Join(memoryMount, "test_memory"), 0755)
-		ioutil.WriteFile(path.Join(memoryMount, "", "tasks"), []byte(strconv.Itoa(cmd.Process.Pid)), 0644)
+		ioutil.WriteFile(path.Join(memoryMount, "test_memory", "tasks"), []byte(strconv.Itoa(cmd.Process.Pid)), 0644)
 		ioutil.WriteFile(path.Join(memoryMount, "test_memory", "memory.limit_in_bytes"),
 			[]byte("100m"), 0664)
 		cmd.Process.Wait()
