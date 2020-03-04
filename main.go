@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"k8s.io/kubeadm/kinder/pkg/cluster/cmd"
 	"log"
 	"os"
 	"os/exec"
@@ -14,15 +13,16 @@ import (
 const memoryMount = "/sys/fs/cgroup/memory"
 
 func main() {
-
-	fmt.Printf("now pid is %d", syscall.Getpid())
-	cmd := exec.Command("sh", "-c", `stress --vm-bytes 200m --vm-keep -m 1`)
-	cmd.SysProcAttr = &syscall.SysProcAttr{}
-	if err := cmd.Start(); err != nil {
-		log.Fatal(err)
+	if os.Args[0] == "/proc/self/exe" {
+		fmt.Printf("now pid is %d", syscall.Getpid())
+		cmd := exec.Command("sh", "-c", `stress --vm-bytes 200m --vm-keep -m 1`)
+		cmd.SysProcAttr = &syscall.SysProcAttr{}
+		if err := cmd.Start(); err != nil {
+			log.Fatal(err)
+		}
 	}
 
-	cmd = exec.Command("/proc/self/exe")
+	cmd := exec.Command("/proc/self/exe")
 	//cmd := exec.Command("sh")
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS |
