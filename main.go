@@ -17,7 +17,7 @@ func main() {
 		fmt.Printf("now pid is %d", syscall.Getpid())
 		cmd := exec.Command("sh", "-c", `stress --vm-bytes 200m --vm-keep -m 1`)
 		cmd.SysProcAttr = &syscall.SysProcAttr{}
-		if err := cmd.Start(); err != nil {
+		if err := cmd.Run(); err != nil {
 			log.Fatal(err)
 		}
 	}
